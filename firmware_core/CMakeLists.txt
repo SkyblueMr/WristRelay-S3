@@ -1,0 +1,28 @@
+if(COMMAND idf_component_register)
+    idf_component_register(SRCS "board_audio_resampler.c" INCLUDE_DIRS "include")
+else()
+    cmake_minimum_required(VERSION 3.16)
+    project(wristrelay_firmware_core LANGUAGES C)
+    enable_testing()
+
+    add_library(wristrelay_firmware_core STATIC board_audio_resampler.c)
+    target_compile_features(wristrelay_firmware_core PUBLIC c_std_11)
+    target_include_directories(wristrelay_firmware_core PUBLIC include)
+    target_link_libraries(wristrelay_firmware_core PUBLIC m)
+
+    add_executable(test_audio_resampler tests/test_audio_resampler.c)
+    target_link_libraries(test_audio_resampler PRIVATE wristrelay_firmware_core)
+    add_test(NAME audio_resampler COMMAND test_audio_resampler)
+
+    add_executable(test_core_policies tests/test_core_policies.c)
+    target_include_directories(test_core_policies PRIVATE tests)
+    target_link_libraries(test_core_policies PRIVATE wristrelay_firmware_core)
+    add_test(NAME core_policies COMMAND test_core_policies)
+
+    foreach(target wristrelay_firmware_core test_audio_resampler test_core_policies)
+        target_compile_options(${target} PRIVATE -Wall -Wextra -Werror)
+    endforeach()
+    foreach(target test_audio_resampler test_core_policies)
+        target_compile_options(${target} PRIVATE -UNDEBUG)
+    endforeach()
+endif()

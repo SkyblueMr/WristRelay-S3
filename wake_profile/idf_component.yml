@@ -1,0 +1,4 @@
+dependencies:
+  espressif/esp-sr:
+    version: "2.6.1"
+    public: true

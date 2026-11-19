@@ -1,0 +1,34 @@
+menu "WristRelay-S3"
+
+config WR_WIFI_SSID
+    string "Wi-Fi station SSID"
+    default ""
+
+config WR_WIFI_PASSPHRASE
+    string "Wi-Fi station passphrase"
+    default ""
+    help
+        Leave empty only for an open network. Values entered here are
+        embedded in the local sdkconfig and compiled firmware image.
+
+config WR_VOICE_URI
+    string "Voice relay WSS URL"
+    default ""
+    help
+        Full wss:// URL of a compatible relay. Do not put secrets in the URL.
+
+config WR_VOICE_TOKEN
+    string "Optional voice relay bearer token"
+    default ""
+    help
+        Do not distribute sdkconfig or firmware built with a private token.
+
+config WR_SNTP_SERVER
+    string "SNTP server for TLS clock initialization"
+    default "pool.ntp.org"
+
+config WR_DISPLAY_WAVESHARE_206
+    bool "Enable the Waveshare 2.06-inch AMOLED status display"
+    default y
+
+endmenu
